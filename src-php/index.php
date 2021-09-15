@@ -18,7 +18,7 @@ $line = fgets($handle);
 $inputCollectionName = strlen(trim($line)) > 0 ? trim($line) : $defaultCollectionName;
 
 // Ask where the collection data is held
-$defaultCollectionEndpoint = "https://harrydenley.com/assets/nft/swankyshapes/";
+$defaultCollectionEndpoint = "https://harrydenley.com/assets/nft/samplenftproject/";
 echo $chalk->blue("Where are you storing the metadata?", $chalk->yellow(implode("", ["[", $defaultCollectionEndpoint, "]"])));
 $handle = fopen ("php://stdin","r");
 $line = fgets($handle);
