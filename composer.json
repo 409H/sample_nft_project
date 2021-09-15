@@ -1,0 +1,39 @@
+{
+    "name": "harrydenley/sample_nft_project",
+    "authors": [
+        {
+            "name": "HARRY DENLEY",
+            "email": "HARRY.DENLEY@OUTLOOK.COM"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit src-php/tests/",
+        "start": "@php ./src-php/index.php"
+    },
+    "extra": {
+        "hooks": {
+            "config": {
+                "stop-on-failure": ["pre-push"]
+            },
+            "pre-commit": [
+                "echo committing as $(git config user.name)",
+                "php-cs-fixer fix src/"
+            ],
+            "pre-push": [
+                "php-cs-fixer fix --dry-run src/",
+                "composer run test"
+            ],
+            "post-merge": "composer install"
+        }
+    },
+    "require": {
+        "ext-gd": "^7.3",
+        "tdtrung17693/php-chalk": "^1.0",
+        "treinetic/imageartist": "^1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.1",
+        "brainmaestro/composer-git-hooks": "^2.8",
+        "phpunit/phpunit": "^9.5"
+    }
+}

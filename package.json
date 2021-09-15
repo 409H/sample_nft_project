@@ -1,0 +1,31 @@
+{
+  "name": "sample_nft_project",
+  "version": "1.0.0",
+  "description": "### Instructions",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/409H/sample_nft_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/409H/sample_nft_project/issues"
+  },
+  "homepage": "https://github.com/409H/sample_nft_project#readme",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.3.2"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.5.0",
+    "dotenv": "^10.0.0",
+    "truffle": "^5.4.10"
+  }
+}

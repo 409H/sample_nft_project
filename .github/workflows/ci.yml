@@ -1,0 +1,22 @@
+on: 
+    pull_request:
+        branches:
+            - master
+
+name: CI
+
+jobs:
+    build-test:
+        name: Running tests
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - uses: php-actions/composer@v5
+            with:
+              php_version: 7.3
+              version: 2
+
+          - name: running php unit
+            run: composer run test
+            env:
+                ENVIRONMENT: dev
