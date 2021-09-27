@@ -66,6 +66,7 @@ $handle = fopen ("php://stdin","r");
 $line = fgets($handle);
 $input = (trim($line) > 0 ? trim($line) : $defaultIterations) + 1;
 $fileIndex = 0;
+
 for($i=1;$i<=$input;$i++) {
     foreach($table["head"] as $key => $headLayer) {
         $attr = [];
@@ -81,40 +82,46 @@ for($i=1;$i<=$input;$i++) {
         ];
 
         $random_eye_index = mt_rand(0, count($table["eyes"]) - 1);
-        $eyes = new Image($table["eyes"][$random_eye_index]["_abs_path"]);
+        $eyeLayer = $table["eyes"][$random_eye_index];
+        $eyes = new Image($eyeLayer["_abs_path"]);
         $head->merge($eyes, 0, 0);
         $attr[] = [
             "trait_type" => "Eye Color",
-            "value" => $headLayer["trait_color"]
+            "value" => $eyeLayer["trait_color"]
         ];
         $attr[] = [
             "trait_type" => "Eye Shape",
-            "value" => $headLayer["trait_shape"]
+            "value" => $eyeLayer["trait_shape"]
         ];
         
         $random_mouth_index = mt_rand(0, count($table["mouth"]) - 1);
-        $mouth = new Image($table["mouth"][$random_mouth_index]["_abs_path"]);
+        $mouthLayer = $table["mouth"][$random_mouth_index];
+        $mouth = new Image($mouthLayer["_abs_path"]);
         $head->merge($mouth, 0, 0);
         $attr[] = [
             "trait_type" => "Mouth Color",
-            "value" => $headLayer["trait_color"]
+            "value" => $mouthLayer["trait_color"]
         ];
         $attr[] = [
             "trait_type" => "Mouth Shape",
-            "value" => $headLayer["trait_shape"]
+            "value" => $mouthLayer["trait_shape"]
         ];
         
-        $head->save(implode("/", [OUTPUT_DIR, $fileIndex.".png"]), IMAGETYPE_PNG);
-        echo PHP_EOL . $chalk->color77("\t[+]Image ${fileIndex} has been created!", PHP_EOL, $chalk->white("\t".json_encode($attr))) . PHP_EOL;
+        if(file_exists(implode("/", [OUTPUT_DIR, $fileIndex.".png"])) === false) {
+            $head->save(implode("/", [OUTPUT_DIR, $fileIndex.".png"]), IMAGETYPE_PNG);
+            echo PHP_EOL . $chalk->color77("\t[+]Image ${fileIndex} has been created!", PHP_EOL, $chalk->white("\t".json_encode($attr))) . PHP_EOL;
 
-        // Build the trait file for the graphic
-        $traits = [
-            "attributes" => $attr,
-            "descriptions" => "",
-            "image" => implode("", [$defaultCollectionEndpoint, $fileIndex, ".png"]),
-            "name" => implode(" ", [$inputCollectionName, "#". $fileIndex])
-        ];
-        file_put_contents(implode("/", [OUTPUT_DIR, $fileIndex]), json_encode($traits));
+            // Build the trait file for the graphic
+            $traits = [
+                "attributes" => $attr,
+                "descriptions" => "",
+                "image" => implode("", [$defaultCollectionEndpoint, $fileIndex, ".png"]),
+                "name" => implode(" ", [$inputCollectionName, "#". $fileIndex])
+            ];
+            file_put_contents(implode("/", [OUTPUT_DIR, $fileIndex]), json_encode($traits));
+        } else {
+            echo PHP_EOL . $chalk->color74("\t[+]Image ${fileIndex} already exists - not overwritten!", PHP_EOL);
+        }
         $fileIndex++;
     }
 }
